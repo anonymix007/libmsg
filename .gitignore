@@ -1,0 +1,8 @@
+*.o
+*.so
+*.ali
+b~*.adb
+b~*.ads
+main
+linux/
+android/
