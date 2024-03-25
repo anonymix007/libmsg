@@ -7,7 +7,7 @@ typedef struct {
 } String;
 typedef enum {
 	WHO,
-	HELLO, 
+	HELLO,
 	GOODBYE,
 } Message_Kind;
 
@@ -18,7 +18,6 @@ typedef int (*pop_function)(void);
 typedef void (*messageinit_function)(void);
 typedef void (*messagefinal_function)(void);
 
-
 #define load_function(name, lib) \
     name##_function name = dlsym(lib, #name); \
     if (name == NULL) { \
@@ -28,9 +27,9 @@ typedef void (*messagefinal_function)(void);
 
 int main(void) {
 	String name = {};
-	
+
 	void *libmsg = dlopen("./libmessage.so", RTLD_NOW);
-	
+
 	if (libmsg == NULL) {
 		fprintf(stderr, "Error: %s\n", dlerror());
 		return 1;
@@ -41,12 +40,12 @@ int main(void) {
 	load_function(push, libmsg);
 	load_function(pop, libmsg);
 	messageinit();
-	
+
 	printf("%s", get_message(WHO));
 	printf("Enter your name: ");
 	scanf("%639s", name.c_str);
-	printf(get_message(HELLO), name.c_str);
-	
+	printf( get_message(HELLO), name.c_str);
+
 	for(int i = 0; i < 7; i++) {
 		printf("Push: %d\n", i + 1);
 		push(i + 1);
@@ -54,8 +53,7 @@ int main(void) {
 	for(int i = 0; i < 7; i++) {
 		printf("Pop: %d\n", pop());
 	}
-	
-	printf(get_message(GOODBYE), name.c_str);	
-	
+
+	printf(get_message(GOODBYE), name.c_str);
 	messagefinal();
 }

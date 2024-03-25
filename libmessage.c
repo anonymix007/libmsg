@@ -1,8 +1,8 @@
 #include <stddef.h>
 
-void adainit(void) {
+void messageinit(void) {
 }
-void adafinal(void) {
+void messagefinal(void) {
 }
 
 static const char *messages[] = {
