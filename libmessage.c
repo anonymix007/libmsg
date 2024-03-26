@@ -4,16 +4,18 @@ void messageinit(void) {
 }
 void messagefinal(void) {
 }
+void do_stuff(void) {
+}
 
 static const char *messages[] = {
     "Who are you?\n",
-     "Hello from C, %s\n",
-     "Goodbye, %s\n",
+    "Hello from C, %s\n",
+    "Goodbye, %s\n",
 };
 
 const char *get_message(unsigned kind) {
 	if (kind >= sizeof(messages) / sizeof(messages[0])) return NULL;
-	
+
 	return messages[kind];
 }
 
@@ -26,7 +28,7 @@ void push(int value) {
 	if (top >= Q_LEN) {
 		return;
 	}
-	
+
 	fixed_queue[top++] = value;
 }
 
@@ -34,6 +36,6 @@ int pop(void) {
 	if (top >= Q_LEN) {
 		return -1;
 	}
-	
+
 	return fixed_queue[--top];
 }

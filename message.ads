@@ -4,19 +4,25 @@ with Ada.Containers.Vectors;
 package Message is
     type Message_Kind is (Who, Hello, Goodbye)
       with Convention => C;
-              
+
+    procedure DoStuff
+      with
+        Export        => True,
+        Convention    => C,
+        External_Name => "do_stuff";
+
     function Get_Message (Kind : Message_Kind) return Char_Array
       with
         Export        => True,
         Convention    => C,
         External_Name => "get_message";
 
-    procedure Push(Value: int) 
+    procedure Push(Value: int)
       with
         Export        => True,
         Convention    => C,
         External_Name => "push";
-        
+
     function Pop return int
       with
         Export        => True,

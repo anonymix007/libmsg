@@ -1,9 +1,11 @@
 #include <stdio.h>
 #include <stdint.h>
+#include <assert.h>
+#include <string.h>
 #include <dlfcn.h>
 
 typedef struct {
-	uint8_t c_str[640];
+	char c_str[640];
 } String;
 typedef enum {
 	WHO,
@@ -17,6 +19,7 @@ typedef void (*push_function)(int);
 typedef int (*pop_function)(void);
 typedef void (*messageinit_function)(void);
 typedef void (*messagefinal_function)(void);
+typedef void (*do_stuff_function)(void);
 
 #define load_function(name, lib) \
     name##_function name = dlsym(lib, #name); \
@@ -37,21 +40,24 @@ int main(void) {
 	load_function(messageinit, libmsg);
 	load_function(messagefinal, libmsg);
 	load_function(get_message, libmsg);
+	load_function(do_stuff, libmsg);
 	load_function(push, libmsg);
 	load_function(pop, libmsg);
 	messageinit();
 
 	printf("%s", get_message(WHO));
-	printf("Enter your name: ");
-	scanf("%639s", name.c_str);
-	printf( get_message(HELLO), name.c_str);
+	//printf("Enter your name: ");
+	//scanf("%639s", name.c_str);
+	strcpy(name.c_str, "Anon");
+	printf(get_message(HELLO), name.c_str);
+
+	do_stuff();
 
 	for(int i = 0; i < 7; i++) {
-		printf("Push: %d\n", i + 1);
 		push(i + 1);
 	}
-	for(int i = 0; i < 7; i++) {
-		printf("Pop: %d\n", pop());
+	for(int i = 7; i > 0; i--) {
+		assert(pop() == i);
 	}
 
 	printf(get_message(GOODBYE), name.c_str);
