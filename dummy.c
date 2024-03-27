@@ -54,6 +54,21 @@ int ColorToInt(Color color) {
     return hexValue;
 }
 
+typedef struct Image {
+    void *data;
+    int width;
+    int height;
+    int mipmaps;
+    int format;
+} Image;
+
+Image LoadImage(const char *fileName)
+{
+    Image image = { NULL, 42, 42, 0, 0 };
+    //...
+    return image;
+}
+
 const char *c_int_str(int value) {
 	static String mem = {};
 	memset(mem.c_str, 0, sizeof(mem));

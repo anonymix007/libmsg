@@ -52,18 +52,36 @@ package body Message is
             Convention => C,
             External_Name => "ColorToInt";
 
+    type Addr is mod 2 ** Standard'Address_Size;
+    type Image is record
+        Data: Addr;
+        Width: int;
+        Height: int;
+        Mipmaps: int;
+        Format: int;
+    end record
+        with Convention => C_Pass_By_Copy;
+    function Load_Image(File_Name: Char_Array) return Image
+        with
+            Import => True,
+            Convention => C,
+            External_Name => "LoadImage";
+
     procedure DoStuff is
         C: constant Color := Get_Color(16#12345678#);
         S: Chars_Ptr := New_String(C'Image);
         I: unsigned := Color_To_Int(C);
         U: Chars_Ptr := C_UInt_Str(I);
         T: Chars_Ptr := New_String(Get_Color(I)'Image);
+        K: Chars_Ptr := New_String(Load_Image(To_C("image.png"))'Image);
     begin
         C_Puts(U);
         C_Puts(S);
         C_Puts(T);
+        C_Puts(K);
         Free(S);
         Free(T);
+        Free(K);
     end;
 
     package Queue is new
